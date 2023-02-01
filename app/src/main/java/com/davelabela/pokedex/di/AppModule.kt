@@ -1,8 +1,8 @@
 package com.davelabela.pokedex.di
 
-import com.davelabela.pokedex.data.PokemonRepository
-import com.davelabela.pokedex.data.PokemonRepositoryImpl
-import com.davelabela.pokedex.data.network.PokeHTTPClient
+import com.davelabela.pokedex.data.remote.PokeHTTPClient
+import com.davelabela.pokedex.repository.PokemonRepository
+import com.davelabela.pokedex.repository.PokemonRepositoryImpl
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

@@ -1,4 +1,4 @@
-package com.davelabela.pokedex.data.network
+package com.davelabela.pokedex.data.remote
 
 import android.util.Log
 import io.ktor.client.*
@@ -9,27 +9,27 @@ import io.ktor.client.features.logging.*
 import io.ktor.client.features.observer.*
 import javax.inject.Inject
 
-class PokeHTTPClient @Inject constructor(){
+class PokeHTTPClient @Inject constructor() {
 
-    fun getHttpClient() = HttpClient(Android){
+    fun getHttpClient() = HttpClient(Android) {
 
-        install(JsonFeature){
-            serializer = KotlinxSerializer(kotlinx.serialization.json.Json{
+        install(JsonFeature) {
+            serializer = KotlinxSerializer(kotlinx.serialization.json.Json {
                 prettyPrint = true
                 isLenient = true
                 ignoreUnknownKeys = true
             })
         }
 
-        install(Logging){
-            logger = object : Logger{
-                override fun log(message: String){
+        install(Logging) {
+            logger = object : Logger {
+                override fun log(message: String) {
                     Log.i(TAG_KTOR_LOGGER, message)
                 }
             }
         }
 
-        install(ResponseObserver){
+        install(ResponseObserver) {
             onResponse { response ->
                 Log.i(TAG_HTTP_STATUS_LOGGER, "${response.status.value}")
             }
@@ -41,7 +41,7 @@ class PokeHTTPClient @Inject constructor(){
         }
     }
 
-    companion object{
+    companion object {
         private const val TIME_OUT = 10_000
         private const val TAG_KTOR_LOGGER = "ktor_logging:"
         private const val TAG_HTTP_STATUS_LOGGER = "http_status:"

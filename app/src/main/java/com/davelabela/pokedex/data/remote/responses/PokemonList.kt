@@ -7,11 +7,11 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class PokemonList(
     @SerialName("count")
-    val count: Int?,
+    val count: Int,
     @SerialName("next")
-    val next: String?,
+    val next: String,
     @SerialName("previous")
     val previous: String?,
     @SerialName("results")
-    val results: List<Result?>?
+    val results: List<Result>
 )
