@@ -17,7 +17,7 @@ class MainViewModel @Inject constructor(private val repository: PokemonRepositor
     init {
         viewModelScope.launch {
             _pokemon.value = Resource.Loading
-            _pokemon.value = repository.getPokemon()
+            _pokemon.value = repository.getPokemonInfo("charmander")
         }
     }
 }
