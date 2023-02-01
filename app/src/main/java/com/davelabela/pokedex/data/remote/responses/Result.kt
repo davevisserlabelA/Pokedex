@@ -7,7 +7,7 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class Result(
     @SerialName("name")
-    val name: String?,
+    val name: String,
     @SerialName("url")
-    val url: String?
+    val url: String
 )
