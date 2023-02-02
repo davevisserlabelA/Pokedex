@@ -32,7 +32,6 @@ import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.davelabela.pokedex.R
 import com.davelabela.pokedex.data.models.PokedexListEntry
-import com.davelabela.pokedex.ui.theme.Shapes
 import com.davelabela.pokedex.util.customPlaceholder
 
 
@@ -130,7 +129,9 @@ fun PokemonList(
         }
         items(itemCount) {
             if (it >= itemCount - 1 && !endReached && !isLoading && !isSearching) {
-                viewModel.loadPokemonPaginated()
+                LaunchedEffect(key1 = true){
+                    viewModel.loadPokemonPaginated()
+                }
             }
             PokedexRow(rowIndex = it, entries = pokemonList, navController = navController)
         }
