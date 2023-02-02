@@ -88,8 +88,6 @@ class PokemonListViewModel @Inject constructor(
                     }
                     curPage++
 
-                    Log.d("YEET LOG", "Page: ${curPage}")
-
                     loadError.value = ""
                     isLoading.value = false
                     pokemonList.value += pokedexEntries
@@ -98,11 +96,15 @@ class PokemonListViewModel @Inject constructor(
                     loadError.value = result.message!!
                     isLoading.value = false
                 }
+                is Resource.Loading ->  {
+
+                }
             }
         }
     }
 
     fun calcDominantColor(drawable: Drawable, onFinish: (Color) -> Unit) {
+
         val bmp = (drawable as BitmapDrawable).bitmap.copy(Bitmap.Config.ARGB_8888, true)
 
         Palette.from(bmp).generate { palette ->
