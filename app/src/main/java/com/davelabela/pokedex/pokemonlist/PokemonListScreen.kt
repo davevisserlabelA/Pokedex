@@ -1,5 +1,6 @@
 package com.davelabela.pokedex.pokemonlist
 
+import android.graphics.drawable.shapes.Shape
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -31,6 +32,8 @@ import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.davelabela.pokedex.R
 import com.davelabela.pokedex.data.models.PokedexListEntry
+import com.davelabela.pokedex.ui.theme.Shapes
+import com.davelabela.pokedex.util.customPlaceholder
 
 
 @Composable
@@ -160,6 +163,9 @@ fun PokedexEntry(
     var dominantColor by remember {
         mutableStateOf(defaultDominantColor)
     }
+    var isLoading by remember {
+        mutableStateOf(true)
+    }
 
     Box(
         contentAlignment = Center,
@@ -167,6 +173,7 @@ fun PokedexEntry(
             .shadow(5.dp, RoundedCornerShape(10.dp))
             .clip(RoundedCornerShape(10.dp))
             .aspectRatio(1f)
+            .customPlaceholder(isLoading, RoundedCornerShape(10.dp))
             .background(
                 Brush.verticalGradient(
                     listOf(
@@ -191,7 +198,9 @@ fun PokedexEntry(
                 modifier = Modifier
                     .size(120.dp)
                     .align(CenterHorizontally),
-                onSuccess = {viewModel.calcDominantColor(it.result.drawable, onFinish = {color -> dominantColor = color })}
+                onSuccess = {viewModel.calcDominantColor(it.result.drawable, onFinish = {color -> dominantColor = color
+                isLoading = false;
+                })}
             )
             Text(
                 text = entry.pokemonName,

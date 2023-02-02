@@ -88,8 +88,6 @@ class PokemonListViewModel @Inject constructor(
                     }
                     curPage++
 
-                    Log.d("YEET LOG", "Page: ${curPage}")
-
                     loadError.value = ""
                     isLoading.value = false
                     pokemonList.value += pokedexEntries
@@ -106,11 +104,8 @@ class PokemonListViewModel @Inject constructor(
     }
 
     fun calcDominantColor(drawable: Drawable, onFinish: (Color) -> Unit) {
-        Log.d("YEET CALC", "After BMP")
 
         val bmp = (drawable as BitmapDrawable).bitmap.copy(Bitmap.Config.ARGB_8888, true)
-
-        Log.d("YEET CALC", "After BMP")
 
         Palette.from(bmp).generate { palette ->
             palette?.dominantSwatch?.rgb?.let { colorValue ->

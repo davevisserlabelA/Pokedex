@@ -96,6 +96,9 @@ dependencies {
 
     // Palette
     implementation 'androidx.palette:palette-ktx:1.0.0'
+
+    // Accompanist
+    implementation 'com.google.accompanist:accompanist-placeholder-material:0.28.0'
 }
 
 // Allow references to generated code
