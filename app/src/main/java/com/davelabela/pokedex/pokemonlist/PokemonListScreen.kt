@@ -190,14 +190,9 @@ fun PokedexEntry(
                 contentDescription = entry.pokemonName,
                 modifier = Modifier
                     .size(120.dp)
-                    .align(CenterHorizontally)
+                    .align(CenterHorizontally),
+                onSuccess = {viewModel.calcDominantColor(it.result.drawable, onFinish = {color -> dominantColor = color })}
             )
-//            {
-//                CircularProgressIndicator(
-//                    color = MaterialTheme.colors.primary,
-//                    modifier = Modifier.scale(0.5f)
-//                )
-//            }
             Text(
                 text = entry.pokemonName,
                 fontSize = 20.sp,
