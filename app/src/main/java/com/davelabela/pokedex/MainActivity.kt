@@ -13,6 +13,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.IntOffset
 import androidx.navigation.NavType
 import androidx.navigation.navArgument
+import com.davelabela.pokedex.homescreen.HomeScreen
 import com.davelabela.pokedex.pokemondetail.PokemonDetailScreen
 import com.davelabela.pokedex.pokemonlist.PokemonListScreen
 import com.davelabela.pokedex.ui.theme.PokedexTheme
@@ -35,8 +36,11 @@ class MainActivity : ComponentActivity() {
                 val navController = rememberAnimatedNavController()
                 AnimatedNavHost(
                     navController = navController,
-                    startDestination = "pokemon_list"
+                    startDestination = "home_screen"
                 ) {
+                    composable("home_screen"){
+                        HomeScreen()
+                    }
                     composable("pokemon_list") {
                         PokemonListScreen(navController = navController)
                     }
