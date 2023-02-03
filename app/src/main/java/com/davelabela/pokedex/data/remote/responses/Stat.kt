@@ -7,9 +7,9 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class Stat(
     @SerialName("base_stat")
-    val baseStat: Int?,
+    val baseStat: Int,
     @SerialName("effort")
-    val effort: Int?,
+    val effort: Int,
     @SerialName("stat")
-    val stat: StatX?
+    val stat: StatX
 )
