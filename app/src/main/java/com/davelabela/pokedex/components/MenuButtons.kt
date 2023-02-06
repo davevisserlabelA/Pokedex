@@ -5,7 +5,6 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -21,34 +20,36 @@ import androidx.compose.ui.unit.sp
 import com.davelabela.pokedex.ui.theme.poppinFonts
 
 @Composable
-fun HomeButton(
+fun RowScope.HomeButton(
     name: String,
     color: Color,
-//    onClick: () -> Unit = {}
+    weight: Float
 ) {
 
     val context = LocalContext.current
 
     Box(
         modifier = Modifier
+            .shadow(elevation = 0.dp, shape = RoundedCornerShape(size = 20.dp))
             .clip(shape = RoundedCornerShape(size = 20.dp))
-            .shadow(10.dp, shape = RoundedCornerShape(20.dp))
-            .background(Color.White)
-            .clickable{ Toast.makeText(context, "Test: ${name}", Toast.LENGTH_SHORT ).show()}
+            .background(Brush.linearGradient(listOf(color.copy(0.5f), color)))
+//            .shadow(10.dp, shape = RoundedCornerShape(size = 20.dp), clip = true)
+            .weight(weight)
+            .clickable {
+                Toast
+                    .makeText(context, "Test: ${name}", Toast.LENGTH_SHORT)
+                    .show()
+            }
     ) {
-        Row(
+        Text(
+            text = name,
+            color = Color.White,
+            fontSize = 20.sp,
+            fontFamily = poppinFonts,
+            fontWeight = FontWeight.Bold,
             modifier = Modifier
-                .background(Brush.linearGradient(listOf(color.copy(0.7f), color)))
-        ) {
-            Text(
-                text = name,
-                color = Color.White,
-                fontSize = 24.sp,
-                fontFamily = poppinFonts,
-                fontWeight = FontWeight.Bold,
-                modifier = Modifier.padding(10.dp)
-            )
-        }
+                .padding(16.dp)
+        )
     }
 }
 
@@ -63,8 +64,9 @@ fun HomeButtonList(
                 .padding(top = 12.dp),
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
-            HomeButton(name = "Pokedex", color = Color(0xff65BD9D))
-            HomeButton(name = "Moves", color = Color(0xffBD8F65))
+            HomeButton(name = "Pokedex", color = Color(0xff65BD9D), weight = 1f)
+            Spacer(modifier = Modifier.padding(8.dp))
+            HomeButton(name = "Moves", color = Color(0xffBD8F65), weight = 1f)
         }
         Row(
             modifier = Modifier
@@ -72,8 +74,9 @@ fun HomeButtonList(
                 .padding(vertical = 12.dp),
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
-            HomeButton(name = "Abilities", color = Color(0xff65A3BD))
-            HomeButton(name = "Items", color = Color(0xffB6BD65))
+            HomeButton(name = "Abilities", color = Color(0xff65A3BD), weight = 1f)
+            Spacer(modifier = Modifier.padding(8.dp))
+            HomeButton(name = "Items", color = Color(0xffB6BD65), weight = 1f)
         }
         Row(
             modifier = Modifier
@@ -81,8 +84,9 @@ fun HomeButtonList(
                 .padding(bottom = 12.dp),
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
-            HomeButton(name = "Locations", color = Color(0xff461158))
-            HomeButton(name = "Type Charts", color = Color(0xffBDA465))
+            HomeButton(name = "Locations", color = Color(0xff461158), weight = 1f)
+            Spacer(modifier = Modifier.padding(8.dp))
+            HomeButton(name = "Type Charts", color = Color(0xffBDA465), weight = 1f)
         }
     }
 }
