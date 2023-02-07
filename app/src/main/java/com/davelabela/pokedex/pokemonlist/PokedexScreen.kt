@@ -50,19 +50,21 @@ fun PokedexScreen(
             Spacer(modifier = Modifier.height(20.dp))
             Row(
                 verticalAlignment = Alignment.CenterVertically,
-                modifier = Modifier.padding(start = 16.dp)
+                modifier = Modifier.padding(4.dp)
             ) {
-                Icon(
-                    painter = painterResource(id = R.drawable.arrow_back),
-                    contentDescription = "Back Button",
-                    modifier = Modifier.clickable { navController.popBackStack() })
+                IconButton(onClick = navController::popBackStack ){
+                    Icon(
+                        painter = painterResource(id = R.drawable.arrow_back),
+                        contentDescription = "Back Button",
+                        modifier = Modifier.size(24.dp)
+                    )
+                }
                 Text(
                     text = "PokeDex",
                     fontSize = 24.sp,
                     fontFamily = poppinFonts,
                     fontWeight = FontWeight.Bold,
                     color = Color(0xFF013A63),
-                    modifier = Modifier.padding(20.dp),
                     textAlign = TextAlign.Center
                 )
             }
@@ -70,7 +72,7 @@ fun PokedexScreen(
                 hint = "Search...",
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(16.dp)
+                    .padding(horizontal = 16.dp)
             ) {
                 viewModel.searchPokemonList(it)
             }
@@ -181,7 +183,7 @@ fun PokedexEntry(
         mutableStateOf(true)
     }
 
-    Box(
+    Box( //TODO: Change to card
         contentAlignment = Center,
         modifier = modifier
             .shadow(5.dp, RoundedCornerShape(10.dp))
