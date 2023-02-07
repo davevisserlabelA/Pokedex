@@ -1,7 +1,5 @@
 package com.davelabela.pokedex.pokemonlist
 
-import android.graphics.drawable.shapes.Shape
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -11,8 +9,10 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.material.*
 import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Alignment.Companion.Center
 import androidx.compose.ui.Alignment.Companion.CenterHorizontally
+import androidx.compose.ui.Alignment.Companion.CenterVertically
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
@@ -23,6 +23,7 @@ import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -32,27 +33,39 @@ import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.davelabela.pokedex.R
 import com.davelabela.pokedex.data.models.PokedexListEntry
+import com.davelabela.pokedex.ui.theme.poppinFonts
 import com.davelabela.pokedex.util.customPlaceholder
 
 
 @Composable
-fun PokemonListScreen(
+fun PokedexScreen(
     navController: NavController,
     viewModel: PokemonListViewModel = hiltViewModel()
 ) {
     Surface(
-        color = MaterialTheme.colors.background,
+        color = Color(0xffF5F6F7),
         modifier = Modifier.fillMaxSize()
     ) {
         Column {
             Spacer(modifier = Modifier.height(20.dp))
-            Image(
-                painter = painterResource(id = R.drawable.ic_international_pok_mon_logo),
-                contentDescription = "Pokemon",
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .align(CenterHorizontally)
-            )
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier.padding(start = 16.dp)
+            ) {
+                Icon(
+                    painter = painterResource(id = R.drawable.arrow_back),
+                    contentDescription = "Back Button",
+                    modifier = Modifier.clickable { navController.popBackStack() })
+                Text(
+                    text = "PokeDex",
+                    fontSize = 24.sp,
+                    fontFamily = poppinFonts,
+                    fontWeight = FontWeight.Bold,
+                    color = Color(0xFF013A63),
+                    modifier = Modifier.padding(20.dp),
+                    textAlign = TextAlign.Center
+                )
+            }
             SearchBar(
                 hint = "Search...",
                 modifier = Modifier
@@ -61,7 +74,7 @@ fun PokemonListScreen(
             ) {
                 viewModel.searchPokemonList(it)
             }
-            Spacer(modifier = Modifier.height(16.dp))
+            Spacer(modifier = Modifier.height(8.dp))
             PokemonList(navController = navController)
         }
     }
@@ -129,7 +142,7 @@ fun PokemonList(
         }
         items(itemCount) {
             if (it >= itemCount - 1 && !endReached && !isLoading && !isSearching) {
-                LaunchedEffect(key1 = true){
+                LaunchedEffect(key1 = true) {
                     viewModel.loadPokemonPaginated()
                 }
             }
@@ -189,7 +202,7 @@ fun PokedexEntry(
                 )
             }
     ) {
-        Column {
+        Row {
             AsyncImage(
                 model = ImageRequest.Builder(LocalContext.current)
                     .data(entry.imageUrl)
@@ -197,17 +210,23 @@ fun PokedexEntry(
                     .build(),
                 contentDescription = entry.pokemonName,
                 modifier = Modifier
-                    .size(120.dp)
-                    .align(CenterHorizontally),
-                onSuccess = {viewModel.calcDominantColor(it.result.drawable, onFinish = {color -> dominantColor = color
-                isLoading = false;
-                })}
+                    .size(64.dp)
+                    .align(CenterVertically),
+                onSuccess = {
+                    viewModel.calculateDominant(it.result.drawable, onFinish = { color ->
+                        dominantColor = color
+                        isLoading = false;
+                    })
+                }
             )
             Text(
                 text = entry.pokemonName,
-                fontSize = 20.sp,
-                textAlign = TextAlign.Center,
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier.fillMaxWidth(),
+                fontSize = 16.sp,
+                fontFamily = poppinFonts,
+                fontWeight = FontWeight.Bold,
+                color = Color.White,
+                textAlign = TextAlign.Center
             )
         }
     }

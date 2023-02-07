@@ -3,7 +3,6 @@ package com.davelabela.pokedex.pokemonlist
 import android.graphics.Bitmap
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
-import android.util.Log
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.graphics.Color
 import androidx.lifecycle.ViewModel
@@ -39,10 +38,10 @@ class PokemonListViewModel @Inject constructor(
         loadPokemonPaginated()
     }
 
-    fun searchPokemonList(query: String){
-        val listToSearch = if(isSearchStarting){
+    fun searchPokemonList(query: String) {
+        val listToSearch = if (isSearchStarting) {
             pokemonList.value
-        } else{
+        } else {
             cachedPokemonList
         }
         viewModelScope.launch(Dispatchers.Default) {
@@ -96,14 +95,14 @@ class PokemonListViewModel @Inject constructor(
                     loadError.value = result.message!!
                     isLoading.value = false
                 }
-                is Resource.Loading ->  {
+                is Resource.Loading -> {
 
                 }
             }
         }
     }
 
-    fun calcDominantColor(drawable: Drawable, onFinish: (Color) -> Unit) {
+    fun calculateDominant(drawable: Drawable, onFinish: (Color) -> Unit) {
 
         val bmp = (drawable as BitmapDrawable).bitmap.copy(Bitmap.Config.ARGB_8888, true)
 
