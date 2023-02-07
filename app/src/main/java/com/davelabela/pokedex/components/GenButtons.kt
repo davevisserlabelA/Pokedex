@@ -8,7 +8,6 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -22,14 +21,18 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import coil.compose.AsyncImage
+import coil.request.ImageRequest
 import com.davelabela.pokedex.R
+import com.davelabela.pokedex.homescreen.HomeScreenViewModel
 import com.davelabela.pokedex.ui.theme.poppinFonts
 
 @Composable
 fun RowScope.GenButton( // Rowscope for .weight attribute
     genName: String,
-    navController: NavController
+    navController: NavController,
 ) {
     val context = LocalContext.current
 
@@ -69,13 +72,39 @@ fun RowScope.GenButton( // Rowscope for .weight attribute
                 modifier = Modifier
                     .fillMaxWidth()
             )
-            Spacer(modifier = Modifier.height(height = 20.dp))
-            Row(horizontalArrangement = Arrangement.SpaceBetween) {
-                Surface(color = Color.Green.copy(alpha = 0.3f), modifier = Modifier.size(24.dp)) {}
-                Surface(color = Color.Red.copy(alpha = 0.3f), modifier = Modifier.size(24.dp)) {}
-                Surface(color = Color.Blue.copy(alpha = 0.3f), modifier = Modifier.size(24.dp)) {}
+            Box() {
+
+                // Temporary images: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/1.png"
+                AsyncImage(
+                    model = ImageRequest.Builder(LocalContext.current)
+                        .data("https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/1.png")
+                        .crossfade(true)
+                        .build(),
+                    contentDescription = "Temp name",
+                    modifier = Modifier
+                        .size(128.dp)
+                        .offset(x = -32.dp, y = -12.dp)
+                )
+                AsyncImage(
+                    model = ImageRequest.Builder(LocalContext.current)
+                        .data("https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/7.png")
+                        .crossfade(true)
+                        .build(),
+                    contentDescription = "Temp name",
+                    modifier = Modifier
+                        .size(128.dp)
+                        .offset(x = 32.dp, y = -12.dp)
+                )
+                AsyncImage(
+                    model = ImageRequest.Builder(LocalContext.current)
+                        .data("https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/4.png")
+                        .crossfade(true)
+                        .build(),
+                    contentDescription = "Temp name",
+                    modifier = Modifier
+                        .size(128.dp)
+                )
             }
-            Spacer(modifier = Modifier.height(height = 40.dp))
         }
 
     }
@@ -84,7 +113,8 @@ fun RowScope.GenButton( // Rowscope for .weight attribute
 @Composable
 fun GenButtonsList(
     generations: List<String>,
-    navController: NavController
+    navController: NavController,
+    viewModel: HomeScreenViewModel = hiltViewModel()
 ) {
     LazyColumn(
         verticalArrangement = Arrangement.spacedBy(8.dp),
@@ -109,22 +139,3 @@ fun GenButtonsList(
         }
     }
 }
-
-//@Preview
-//@Composable
-//fun GenButtonsList_Preview() {
-//
-//    val generations = listOf<String>(
-//        "Gen I",
-//        "Gen II",
-//        "Gen III",
-//        "Gen IV",
-//        "Gen V",
-//        "Gen VI",
-//        "Gen VII",
-//        "Gen VIII",
-//        "Gen IX",
-//    )
-//
-//    GenButtonsList(generations = generations)
-//}
