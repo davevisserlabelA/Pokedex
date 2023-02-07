@@ -14,22 +14,22 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import com.davelabela.pokedex.R
 import com.davelabela.pokedex.ui.theme.poppinFonts
 
 @Composable
-fun RowScope.GenButton(
+fun RowScope.GenButton( // Rowscope for .weight attribute
     genName: String,
+    navController: NavController
 ) {
     val context = LocalContext.current
 
@@ -39,7 +39,6 @@ fun RowScope.GenButton(
             .fillMaxSize()
             .weight(1f)
             .background(Color.White)
-//            .shadow(1.dp, shape = RoundedCornerShape(20.dp), clip = true)
             .clickable {
                 Toast
                     .makeText(context, "Test: $genName", Toast.LENGTH_SHORT)
@@ -47,9 +46,9 @@ fun RowScope.GenButton(
             }
     ) {
         Image(
-            painter = painterResource(id = R.drawable.pokeball_light),
+            painter = painterResource(id = R.drawable.pokeball),
             contentDescription = "PokeBall",
-            alpha = 0.4f,
+            alpha = 0.1f,
             contentScale = ContentScale.Fit,
             modifier = Modifier
                 .size(64.dp)
@@ -84,7 +83,8 @@ fun RowScope.GenButton(
 
 @Composable
 fun GenButtonsList(
-    generations: List<String>
+    generations: List<String>,
+    navController: NavController
 ) {
     LazyColumn(
         verticalArrangement = Arrangement.spacedBy(8.dp),
@@ -96,13 +96,13 @@ fun GenButtonsList(
             if (index % 2 == 0) {
                 if (generations.size > index + 1) {
                     Row() {
-                        GenButton(genName = generations[index])
+                        GenButton(genName = generations[index], navController = navController)
                         Spacer(modifier = Modifier.padding(8.dp))
-                        GenButton(genName = generations[index + 1])
+                        GenButton(genName = generations[index + 1], navController = navController)
                     }
                 } else {
                     Row() {
-                        GenButton(genName = generations[index])
+                        GenButton(genName = generations[index], navController = navController)
                     }
                 }
             }
@@ -110,21 +110,21 @@ fun GenButtonsList(
     }
 }
 
-@Preview
-@Composable
-fun GenButtonsList_Preview() {
-
-    val generations = listOf<String>(
-        "Gen I",
-        "Gen II",
-        "Gen III",
-        "Gen IV",
-        "Gen V",
-        "Gen VI",
-        "Gen VII",
-        "Gen VIII",
-        "Gen IX",
-    )
-
-    GenButtonsList(generations = generations)
-}
+//@Preview
+//@Composable
+//fun GenButtonsList_Preview() {
+//
+//    val generations = listOf<String>(
+//        "Gen I",
+//        "Gen II",
+//        "Gen III",
+//        "Gen IV",
+//        "Gen V",
+//        "Gen VI",
+//        "Gen VII",
+//        "Gen VIII",
+//        "Gen IX",
+//    )
+//
+//    GenButtonsList(generations = generations)
+//}

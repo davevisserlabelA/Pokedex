@@ -12,17 +12,18 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import com.davelabela.pokedex.R
 import com.davelabela.pokedex.components.GenButtonsList
 import com.davelabela.pokedex.components.HomeButtonList
 import com.davelabela.pokedex.ui.theme.poppinFonts
 
 @Composable
-fun HomeScreen() {
-
+fun HomeScreen(
+    navController: NavController,
+) {
     val generationList = listOf<String>(
         "Gen I",
         "Gen II",
@@ -49,9 +50,9 @@ fun HomeScreen() {
             ) {
                 Box() {
                     Image( // Pokeball Image
-                        painter = painterResource(id = R.drawable.pokeball_light),
+                        painter = painterResource(id = R.drawable.pokeball),
                         contentDescription = "PokeBall",
-                        alpha = 0.2f,
+                        alpha = 0.1f,
                         contentScale = ContentScale.Fit,
                         modifier = Modifier
                             .size(256.dp)
@@ -67,7 +68,7 @@ fun HomeScreen() {
                             color = Color(0xFF013A63),
                             modifier = Modifier.padding(20.dp),
                         )
-                        HomeButtonList()
+                        HomeButtonList(navController = navController)
                     }
                 }
             }
@@ -82,15 +83,15 @@ fun HomeScreen() {
                     color = Color(0xFF013A63),
                     modifier = Modifier.padding(start = 16.dp, bottom = 8.dp)
                 )
-                GenButtonsList(generations = generationList)
+                GenButtonsList(generations = generationList, navController = navController)
             }
         }
 
     }
 }
 
-@Preview(showBackground = true)
-@Composable
-fun HomeScreen_Preview() {
-    HomeScreen()
-}
+//@Preview(showBackground = true)
+//@Composable
+//fun HomeScreen_Preview() {
+//    HomeScreen()
+//}
