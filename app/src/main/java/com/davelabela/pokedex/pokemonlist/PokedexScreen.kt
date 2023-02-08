@@ -14,10 +14,8 @@ import androidx.compose.ui.Alignment.Companion.Center
 import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Alignment.Companion.CenterVertically
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.focus.onFocusChanged
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalContext
@@ -40,19 +38,21 @@ import com.davelabela.pokedex.util.customPlaceholder
 @Composable
 fun PokedexScreen(
     navController: NavController,
-    viewModel: PokemonListViewModel = hiltViewModel()
+    viewModel: PokeDexViewModel = hiltViewModel()
 ) {
     Surface(
         color = Color(0xffF5F6F7),
-        modifier = Modifier.fillMaxSize()
+        modifier = Modifier
+            .fillMaxSize()
+            .systemBarsPadding()
     ) {
         Column {
             Spacer(modifier = Modifier.height(20.dp))
             Row(
-                verticalAlignment = Alignment.CenterVertically,
+                verticalAlignment = CenterVertically,
                 modifier = Modifier.padding(4.dp)
             ) {
-                IconButton(onClick = navController::popBackStack ){
+                IconButton(onClick = navController::popBackStack) {
                     Icon(
                         painter = painterResource(id = R.drawable.arrow_back),
                         contentDescription = "Back Button",
@@ -128,7 +128,7 @@ fun SearchBar(
 @Composable
 fun PokemonList(
     navController: NavController,
-    viewModel: PokemonListViewModel = hiltViewModel()
+    viewModel: PokeDexViewModel = hiltViewModel()
 ) {
     val pokemonList by remember { viewModel.pokemonList }
     val endReached by remember { viewModel.endReached }
@@ -173,7 +173,7 @@ fun PokedexEntry(
     entry: PokedexListEntry,
     navController: NavController,
     modifier: Modifier = Modifier,
-    viewModel: PokemonListViewModel = hiltViewModel()
+    viewModel: PokeDexViewModel = hiltViewModel()
 ) {
     val defaultDominantColor = MaterialTheme.colors.surface
     var dominantColor by remember {
@@ -183,53 +183,54 @@ fun PokedexEntry(
         mutableStateOf(true)
     }
 
-    Box( //TODO: Change to card
-        contentAlignment = Center,
+    Card(
         modifier = modifier
-            .shadow(5.dp, RoundedCornerShape(10.dp))
-            .clip(RoundedCornerShape(10.dp))
-            .aspectRatio(1f)
-            .customPlaceholder(isLoading, RoundedCornerShape(10.dp))
-            .background(
-                Brush.verticalGradient(
-                    listOf(
-                        dominantColor,
-                        defaultDominantColor
-                    )
-                )
-            )
+            .customPlaceholder(isLoading, RoundedCornerShape(20.dp))
             .clickable {
                 navController.navigate(
                     "pokemon_detail_screen/${dominantColor.toArgb()}/${entry.pokemonName}"
                 )
-            }
+            },
+        elevation = 10.dp,
+        shape = RoundedCornerShape(20.dp),
+        backgroundColor = dominantColor
     ) {
-        Row {
-            AsyncImage(
-                model = ImageRequest.Builder(LocalContext.current)
-                    .data(entry.imageUrl)
-                    .crossfade(true)
-                    .build(),
-                contentDescription = entry.pokemonName,
-                modifier = Modifier
-                    .size(64.dp)
-                    .align(CenterVertically),
-                onSuccess = {
-                    viewModel.calculateDominant(it.result.drawable, onFinish = { color ->
-                        dominantColor = color
-                        isLoading = false;
-                    })
-                }
-            )
+        Column(Modifier.padding(8.dp)) {
             Text(
-                text = entry.pokemonName,
-                modifier = Modifier.fillMaxWidth(),
+                text = "#${entry.number} ${entry.pokemonName}",
                 fontSize = 16.sp,
                 fontFamily = poppinFonts,
                 fontWeight = FontWeight.Bold,
                 color = Color.White,
-                textAlign = TextAlign.Center
             )
+            Row(modifier = Modifier.align(Alignment.CenterHorizontally)) {
+
+                Box(modifier = Modifier.offset(y = 0.dp)) {
+                    Icon(
+                        painter = painterResource(id = R.drawable.pokeball),
+                        contentDescription = "PokeBall",
+                        tint = Color(0x13FFFFFF),
+                        modifier = Modifier
+                            .size(128.dp)
+                    )
+                    AsyncImage(
+                        model = ImageRequest.Builder(LocalContext.current)
+                            .data(entry.imageUrl)
+                            .crossfade(true)
+                            .build(),
+                        contentDescription = entry.pokemonName,
+                        modifier = Modifier
+                            .size(128.dp),
+                        onSuccess = {
+                            viewModel.calculateDominant(it.result.drawable, onFinish = { color ->
+                                dominantColor = color
+                                isLoading = false;
+                            })
+                        }
+                    )
+                }
+            }
+
         }
     }
 }

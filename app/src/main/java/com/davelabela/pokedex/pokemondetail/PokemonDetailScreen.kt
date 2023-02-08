@@ -59,6 +59,7 @@ fun PokemonDetailScreen(
             .fillMaxSize()
             .background(dominantColor)
             .padding(bottom = 16.dp)
+            .systemBarsPadding()
     ) {
         PokemonDetailTopSection(
             navController = navController,

@@ -53,11 +53,11 @@ class PokemonRepositoryImpl @Inject constructor(
 
     override suspend fun getGenerationInfo(id: Int): Resource<Generation> {
         return try {
-            Resource.Success(httpClient.get{
+            Resource.Success(httpClient.get {
                 url("$BASE_URL/generation/${id}")
             }
             )
-        } catch (e: Exception){
+        } catch (e: Exception) {
             return Resource.Error("Unknown error occured")
         }
     }

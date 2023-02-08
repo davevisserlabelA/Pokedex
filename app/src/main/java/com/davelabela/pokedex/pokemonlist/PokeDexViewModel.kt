@@ -19,7 +19,7 @@ import java.util.*
 import javax.inject.Inject
 
 @HiltViewModel
-class PokemonListViewModel @Inject constructor(
+class PokeDexViewModel @Inject constructor(
     private val repository: PokemonRepository
 ) : ViewModel() {
 

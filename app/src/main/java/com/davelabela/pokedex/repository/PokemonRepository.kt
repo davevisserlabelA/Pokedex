@@ -13,8 +13,8 @@ interface PokemonRepository {
 
     suspend fun getPokemonInfo(name: String): Resource<Pokemon>
 
-    suspend fun getGenerationInfo(id: Int) :  Resource<Generation>
+    suspend fun getGenerationInfo(id: Int): Resource<Generation>
 
-    suspend fun getGenerationList() : Resource<GenerationList>
+    suspend fun getGenerationList(): Resource<GenerationList>
 
 }

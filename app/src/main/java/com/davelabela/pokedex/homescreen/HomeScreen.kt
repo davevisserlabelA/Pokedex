@@ -47,10 +47,13 @@ fun HomeScreen(
     ) {
         Column( // Top Items Column
             modifier = Modifier
-                .background(Color.White, shape = RoundedCornerShape(bottomStart = 40.dp, bottomEnd = 40.dp))
+                .background(
+                    Color.White,
+                    shape = RoundedCornerShape(bottomStart = 40.dp, bottomEnd = 40.dp)
+                )
                 .padding(bottom = 16.dp)
         ) {
-            Box{
+            Box {
                 Image( // Pokeball Image
                     painter = painterResource(id = R.drawable.pokeball),
                     contentDescription = "PokeBall",
