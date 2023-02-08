@@ -1,8 +1,8 @@
 package com.davelabela.pokedex.util
 
 import androidx.compose.ui.graphics.Color
-import com.davelabela.pokedex.data.remote.responses.Stat
-import com.davelabela.pokedex.data.remote.responses.Type
+import com.davelabela.pokedex.data.remote.responses.pokemon.Stat
+import com.davelabela.pokedex.data.remote.responses.pokemon.Type
 import com.davelabela.pokedex.ui.theme.*
 import java.util.*
 

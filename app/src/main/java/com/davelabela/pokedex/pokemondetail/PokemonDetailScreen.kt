@@ -32,8 +32,8 @@ import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.davelabela.pokedex.R
-import com.davelabela.pokedex.data.remote.responses.Pokemon
-import com.davelabela.pokedex.data.remote.responses.Type
+import com.davelabela.pokedex.data.remote.responses.pokemon.Pokemon
+import com.davelabela.pokedex.data.remote.responses.pokemon.Type
 import com.davelabela.pokedex.util.Resource
 import com.davelabela.pokedex.util.parseStatToAbbr
 import com.davelabela.pokedex.util.parseStatToColor
@@ -59,6 +59,7 @@ fun PokemonDetailScreen(
             .fillMaxSize()
             .background(dominantColor)
             .padding(bottom = 16.dp)
+            .systemBarsPadding()
     ) {
         PokemonDetailTopSection(
             navController = navController,

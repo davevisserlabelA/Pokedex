@@ -1,7 +1,9 @@
 package com.davelabela.pokedex.repository
 
-import com.davelabela.pokedex.data.remote.responses.Pokemon
-import com.davelabela.pokedex.data.remote.responses.PokemonList
+import com.davelabela.pokedex.data.remote.responses.generation.Generation
+import com.davelabela.pokedex.data.remote.responses.generation.GenerationList
+import com.davelabela.pokedex.data.remote.responses.pokemon.Pokemon
+import com.davelabela.pokedex.data.remote.responses.pokemon.PokemonList
 import com.davelabela.pokedex.util.Constants.BASE_URL
 import com.davelabela.pokedex.util.Constants.BULBASAUR_URL
 import com.davelabela.pokedex.util.Resource
@@ -47,5 +49,20 @@ class PokemonRepositoryImpl @Inject constructor(
             e.printStackTrace()
             return Resource.Error("Unknown error occured")
         }
+    }
+
+    override suspend fun getGenerationInfo(id: Int): Resource<Generation> {
+        return try {
+            Resource.Success(httpClient.get {
+                url("$BASE_URL/generation/${id}")
+            }
+            )
+        } catch (e: Exception) {
+            return Resource.Error("Unknown error occured")
+        }
+    }
+
+    override suspend fun getGenerationList(): Resource<GenerationList> {
+        TODO("Not yet implemented")
     }
 }
