@@ -15,7 +15,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.drawWithContent
+import androidx.compose.ui.graphics.BlendMode
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
@@ -128,6 +132,13 @@ fun GenButtonsList(
         modifier = Modifier
             .fillMaxWidth()
             .padding(horizontal = 12.dp)
+            .graphicsLayer { alpha = 0.99f }
+            .drawWithContent {
+                // TODO: Very hacky fade. Change
+                val colors = listOf(Color.Transparent,Color.Black,Color.Black,Color.Black,Color.Black,Color.Black,Color.Black,Color.Black,Color.Black,Color.Black,Color.Black,Color.Black,Color.Black,Color.Black,Color.Black,Color.Black,Color.Black,Color.Black,Color.Black,Color.Black,Color.Black,Color.Black,Color.Black,Color.Black,Color.Black,Color.Transparent)
+                drawContent()
+                drawRect(brush = Brush.verticalGradient(colors), blendMode = BlendMode.DstIn)
+            }
     ) {
         itemsIndexed(generations) { index, _ ->
             if (index % 2 == 0) {
