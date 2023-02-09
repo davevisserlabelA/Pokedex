@@ -35,6 +35,8 @@ import com.davelabela.pokedex.data.models.PokedexListEntry
 import com.davelabela.pokedex.ui.theme.poppinFonts
 import com.davelabela.pokedex.util.customPlaceholder
 
+// TODO: Decrease code duplication with pokedex screen.
+// TODO: Refactor into better code structure / different files -> Extract compose functions.
 
 @Composable
 fun ItemdexScreen(
@@ -42,27 +44,27 @@ fun ItemdexScreen(
     viewModel: ItemDexViewModel = hiltViewModel()
 ) {
     Surface(
-        color = Color(0xffF5F6F7),
+        color = Color(0xffF5F6F7), //TODO: Change to constant
         modifier = Modifier
             .fillMaxSize()
             .systemBarsPadding()
     ) {
         Column {
-            Spacer(modifier = Modifier.height(20.dp))
+            Spacer(modifier = Modifier.height(20.dp)) //TODO: Change to constant
             Row(
                 verticalAlignment = CenterVertically,
-                modifier = Modifier.padding(4.dp)
+                modifier = Modifier.padding(4.dp) //TODO: Change to constant
             ) {
                 IconButton(onClick = navController::popBackStack) {
                     Icon(
                         painter = painterResource(id = R.drawable.arrow_back),
                         contentDescription = "Back Button",
-                        modifier = Modifier.size(24.dp)
+                        modifier = Modifier.size(24.dp) //TODO: Change to constant
                     )
                 }
                 Text(
                     text = "ItemDex",
-                    fontSize = 24.sp,
+                    fontSize = 24.sp, //TODO: Change to constant
                     fontFamily = poppinFonts,
                     fontWeight = FontWeight.Bold,
                     color = Color(0xFF013A63),
@@ -73,11 +75,11 @@ fun ItemdexScreen(
                 hint = "Search...",
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(horizontal = 16.dp)
+                    .padding(horizontal = 16.dp) //TODO: Change to constant
             ) {
                 viewModel.searchItemList(it)
             }
-            Spacer(modifier = Modifier.height(8.dp))
+            Spacer(modifier = Modifier.height(8.dp)) //TODO: Change to constant
             ItemList(navController = navController)
         }
     }
@@ -110,7 +112,7 @@ fun SearchBar(
                 .fillMaxWidth()
                 .shadow(5.dp, CircleShape)
                 .background(Color.White, CircleShape)
-                .padding(horizontal = 20.dp, vertical = 12.dp)
+                .padding(horizontal = 20.dp, vertical = 12.dp) //TODO: Change to constant
                 .onFocusChanged {
                     isHintDisplayed = !it.isFocused && text.isEmpty()
                 }
@@ -120,7 +122,7 @@ fun SearchBar(
                 text = hint,
                 color = Color.LightGray,
                 modifier = Modifier
-                    .padding(horizontal = 20.dp, vertical = 12.dp)
+                    .padding(horizontal = 20.dp, vertical = 12.dp) //TODO: Change to constant
             )
         }
     }
@@ -203,7 +205,7 @@ fun ItemdexEntry(
         shape = RoundedCornerShape(20.dp),
         backgroundColor = dominantColor
     ) {
-        Column(Modifier.padding(8.dp)) {
+        Column(Modifier.padding(8.dp)) {//TODO: Change to constant
             Text(
                 text = "${entry.itemName}",
                 fontSize = 16.sp,
@@ -213,13 +215,13 @@ fun ItemdexEntry(
             )
             Row(modifier = Modifier.align(Alignment.CenterHorizontally)) {
 
-                Box(modifier = Modifier.offset(y = 0.dp)) {
+                Box(modifier = Modifier.offset(y = 0.dp)) {//TODO: Change to constant
                     Icon(
                         painter = painterResource(id = R.drawable.pokeball),
                         contentDescription = "PokeBall",
                         tint = Color(0x13FFFFFF),
                         modifier = Modifier
-                            .size(64.dp)
+                            .size(64.dp) //TODO: Change to constant
                     )
                     AsyncImage(
                         model = ImageRequest.Builder(LocalContext.current)
@@ -228,7 +230,7 @@ fun ItemdexEntry(
                             .build(),
                         contentDescription = entry.itemName,
                         modifier = Modifier
-                            .size(64.dp),
+                            .size(64.dp), //TODO: Change to constant
                         onSuccess = {
                             viewModel.calculateDominant(it.result.drawable, onFinish = { color ->
                                 dominantColor = color
@@ -254,7 +256,7 @@ fun ItemdexRow(
             ItemdexEntry(
                 entry = entries[rowIndex * 2],
                 navController = navController,
-                modifier = Modifier.weight(1f)
+                modifier = Modifier.weight(1f) //TODO: Change to constant
             )
             Spacer(modifier = Modifier.width(16.dp))
             if (entries.size >= rowIndex * 2 + 2) {
@@ -264,10 +266,10 @@ fun ItemdexRow(
                     modifier = Modifier.weight(1f)
                 )
             } else {
-                Spacer(modifier = Modifier.weight(1f))
+                Spacer(modifier = Modifier.weight(1f)) //TODO: Change to constant
             }
         }
-        Spacer(modifier = Modifier.height(16.dp))
+        Spacer(modifier = Modifier.height(16.dp)) //TODO: Change to constant
     }
 }
 
@@ -277,7 +279,7 @@ fun RetrySection(
     onRetry: () -> Unit
 ) {
     Column {
-        Text(error, color = Color.Red, fontSize = 18.sp)
+        Text(error, color = Color.Red, fontSize = 18.sp) //TODO: Change to constant
         Spacer(modifier = Modifier.height(8.dp))
         Button(
             onClick = { onRetry() },

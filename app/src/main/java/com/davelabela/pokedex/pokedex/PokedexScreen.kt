@@ -34,6 +34,8 @@ import com.davelabela.pokedex.data.models.PokedexListEntry
 import com.davelabela.pokedex.ui.theme.poppinFonts
 import com.davelabela.pokedex.util.customPlaceholder
 
+// TODO: Decrease code duplication with itemdex screen.
+// TODO: Refactor into better code structure / different files -> Extract compose functions.
 
 @Composable
 fun PokedexScreen(

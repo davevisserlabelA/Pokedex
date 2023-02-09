@@ -19,6 +19,7 @@ interface PokemonRepository {
 
     suspend fun getGenerationList(): Resource<GenerationList>
 
+    // TODO: Pull item functions out of repository
     suspend fun getItemList(limit: Int, offset: Int): Resource<ItemList>
 
     suspend fun getItemInfo(name: String): Resource<Item>
