@@ -1,5 +1,6 @@
 package com.davelabela.pokedex.pokemondetail
 
+import android.os.Build.VERSION.SDK_INT
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
@@ -28,7 +29,10 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import coil.ImageLoader
 import coil.compose.AsyncImage
+import coil.decode.GifDecoder
+import coil.decode.ImageDecoderDecoder
 import coil.request.ImageRequest
 import com.davelabela.pokedex.R
 import com.davelabela.pokedex.data.remote.responses.pokemon.Pokemon
@@ -40,6 +44,7 @@ import com.davelabela.pokedex.util.parseStatToColor
 import java.lang.Math.round
 import java.util.*
 
+//TODO: Change all padding values to constants
 
 @Composable
 fun PokemonDetailScreen(
@@ -87,9 +92,12 @@ fun PokemonDetailScreen(
                     .background(Color.White)
                     .padding(32.dp),
                 loadingModifier = Modifier
-                    .size(100.dp)
+                    .fillMaxSize()
                     .padding(
                         top = topPadding + pokemonImageSize / 3f,
+                        start = 32.dp,
+                        end = 32.dp,
+                        bottom = 32.dp
                     )
             )
         }
@@ -99,17 +107,46 @@ fun PokemonDetailScreen(
                 .fillMaxSize()
         ) {
             if (pokemonInfo is Resource.Success) {
-                pokemonInfo.data?.sprites?.let {
-                    AsyncImage(
-                        model = ImageRequest.Builder(LocalContext.current)
-                            .data(it.frontDefault)
-                            .crossfade(true)
-                            .build(),
-                        contentDescription = pokemonInfo.data.name,
-                        modifier = Modifier
-                            .size(pokemonImageSize)
-                            .offset(y = topPadding * 2)
-                    )
+                if (pokemonInfo.data?.id!! >= 0 && pokemonInfo.data.id <= 649) {
+
+                    val context = LocalContext.current
+                    val imageLoader = ImageLoader.Builder(context)
+                        .components() {
+                            if (SDK_INT >= 28) {
+                                add(ImageDecoderDecoder.Factory())
+                            } else {
+                                add(GifDecoder.Factory())
+                            }
+                        }
+                        .build()
+
+                    pokemonInfo.data.sprites.let {
+                        AsyncImage(
+                            imageLoader = imageLoader,
+                            model = ImageRequest.Builder(LocalContext.current)
+                                .data(it.versions.generationV?.blackWhite?.animated?.frontDefault)
+                                .crossfade(true)
+                                .build(),
+                            contentDescription = pokemonInfo.data.name,
+                            modifier = Modifier
+                                .size(pokemonImageSize)
+                                .padding(32.dp)
+                                .offset(y = topPadding * 2)
+                        )
+                    }
+                } else {
+                    pokemonInfo.data.sprites.let {
+                        AsyncImage(
+                            model = ImageRequest.Builder(LocalContext.current)
+                                .data(it.frontDefault)
+                                .crossfade(true)
+                                .build(),
+                            contentDescription = pokemonInfo.data.name,
+                            modifier = Modifier
+                                .size(pokemonImageSize)
+                                .offset(y = topPadding * 2)
+                        )
+                    }
                 }
             }
         }
@@ -153,6 +190,7 @@ fun PokemonDetailStateWrapper(
             )
         }
         is Resource.Loading -> {
+            //TODO: Change to shimmer animation
             CircularProgressIndicator(
                 color = MaterialTheme.colors.primary,
                 modifier = loadingModifier
@@ -245,7 +283,7 @@ fun PokemonDetailDataSection(
         round(pokemonHeight * 100f) / 1000f
     }
     Column {
-        Text(
+        Text( //TODO: Change color to theme
             text = "Details:",
             fontFamily = poppinFonts,
             fontSize = 24.sp,
@@ -256,7 +294,7 @@ fun PokemonDetailDataSection(
             modifier = Modifier
                 .fillMaxWidth()
         ) {
-            PokemonDetailDataItem(
+            PokemonDetailDataItem( //TODO: Change color to theme
                 dataValue = pokemonWeightInKg,
                 dataUnit = "kg",
                 dataIcon = painterResource(id = R.drawable.ic_weight),
@@ -267,7 +305,7 @@ fun PokemonDetailDataSection(
                     .size(1.dp, sectionHeight)
                     .background(Color.LightGray)
             )
-            PokemonDetailDataItem(
+            PokemonDetailDataItem( //TODO: Change color to theme
                 dataValue = pokemonHeightInMeters,
                 dataUnit = "m",
                 dataIcon = painterResource(id = R.drawable.ic_height),
@@ -377,7 +415,7 @@ fun PokemonBaseStats(
     Column(
         modifier = Modifier.fillMaxWidth()
     ) {
-        Text(
+        Text( //TODO: Change color to theme
             text = "Base stats:",
             fontFamily = poppinFonts,
             fontWeight = FontWeight.Bold,
