@@ -4,17 +4,15 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.animation.*
-import androidx.compose.animation.core.FastOutSlowInEasing
-import androidx.compose.animation.core.Spring
-import androidx.compose.animation.core.spring
-import androidx.compose.animation.core.tween
 import androidx.compose.runtime.remember
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.unit.IntOffset
+import androidx.core.view.WindowCompat
 import androidx.navigation.NavType
 import androidx.navigation.navArgument
+import com.davelabela.pokedex.homescreen.HomeScreen
+import com.davelabela.pokedex.itemdex.ItemdexScreen
 import com.davelabela.pokedex.pokemondetail.PokemonDetailScreen
-import com.davelabela.pokedex.pokemonlist.PokemonListScreen
+import com.davelabela.pokedex.pokedex.PokedexScreen
 import com.davelabela.pokedex.ui.theme.PokedexTheme
 import com.google.accompanist.navigation.animation.AnimatedNavHost
 import com.google.accompanist.navigation.animation.composable
@@ -26,19 +24,25 @@ import java.util.*
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
 
         super.onCreate(savedInstanceState)
+        WindowCompat.setDecorFitsSystemWindows(window, false)
         setContent {
             PokedexTheme() {
                 val navController = rememberAnimatedNavController()
                 AnimatedNavHost(
                     navController = navController,
-                    startDestination = "pokemon_list"
+                    startDestination = "home_screen"
                 ) {
-                    composable("pokemon_list") {
-                        PokemonListScreen(navController = navController)
+                    composable("home_screen") {
+                        HomeScreen(navController = navController)
+                    }
+                    composable("itemdex_screen"){
+                        ItemdexScreen(navController = navController)
+                    }
+                    composable("pokedex_screen") {
+                        PokedexScreen(navController = navController)
                     }
                     composable(
                         "pokemon_detail_screen/{dominantColor}/{pokemonName}",
