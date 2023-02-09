@@ -113,7 +113,7 @@ fun HomeButtonList(
                 name = "Items",
                 color = Color(0xffB6BD65),
                 navController = navController,
-                navRoute = "pokedex_screen"
+                navRoute = "itemdex_screen"
             )
         }
         Row(

@@ -10,8 +10,9 @@ import androidx.core.view.WindowCompat
 import androidx.navigation.NavType
 import androidx.navigation.navArgument
 import com.davelabela.pokedex.homescreen.HomeScreen
+import com.davelabela.pokedex.itemdex.ItemdexScreen
 import com.davelabela.pokedex.pokemondetail.PokemonDetailScreen
-import com.davelabela.pokedex.pokemonlist.PokedexScreen
+import com.davelabela.pokedex.pokedex.PokedexScreen
 import com.davelabela.pokedex.ui.theme.PokedexTheme
 import com.google.accompanist.navigation.animation.AnimatedNavHost
 import com.google.accompanist.navigation.animation.composable
@@ -36,6 +37,9 @@ class MainActivity : ComponentActivity() {
                 ) {
                     composable("home_screen") {
                         HomeScreen(navController = navController)
+                    }
+                    composable("itemdex_screen"){
+                        ItemdexScreen(navController = navController)
                     }
                     composable("pokedex_screen") {
                         PokedexScreen(navController = navController)
