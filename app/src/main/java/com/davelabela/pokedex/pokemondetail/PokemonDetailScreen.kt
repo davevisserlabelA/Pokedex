@@ -1,5 +1,7 @@
 package com.davelabela.pokedex.pokemondetail
 
+import android.os.Build.VERSION.SDK_INT
+import android.util.Log
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
@@ -28,7 +30,10 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import coil.ImageLoader
 import coil.compose.AsyncImage
+import coil.decode.GifDecoder
+import coil.decode.ImageDecoderDecoder
 import coil.request.ImageRequest
 import com.davelabela.pokedex.R
 import com.davelabela.pokedex.data.remote.responses.pokemon.Pokemon
@@ -38,6 +43,7 @@ import com.davelabela.pokedex.util.Resource
 import com.davelabela.pokedex.util.parseStatToAbbr
 import com.davelabela.pokedex.util.parseStatToColor
 import java.lang.Math.round
+import java.net.URI
 import java.util.*
 
 
@@ -99,17 +105,46 @@ fun PokemonDetailScreen(
                 .fillMaxSize()
         ) {
             if (pokemonInfo is Resource.Success) {
-                pokemonInfo.data?.sprites?.let {
-                    AsyncImage(
-                        model = ImageRequest.Builder(LocalContext.current)
-                            .data(it.frontDefault)
-                            .crossfade(true)
-                            .build(),
-                        contentDescription = pokemonInfo.data.name,
-                        modifier = Modifier
-                            .size(pokemonImageSize)
-                            .offset(y = topPadding * 2)
-                    )
+                if (pokemonInfo.data?.id!! >= 0 && pokemonInfo.data.id <= 649){
+
+                    val context = LocalContext.current
+                    val imageLoader = ImageLoader.Builder(context)
+                        .components() {
+                            if (SDK_INT >= 28) {
+                                add(ImageDecoderDecoder.Factory())
+                            } else {
+                                add(GifDecoder.Factory())
+                            }
+                        }
+                        .build()
+
+                    pokemonInfo.data.sprites.let {
+                        AsyncImage(
+                            imageLoader = imageLoader,
+                            model = ImageRequest.Builder(LocalContext.current)
+                                .data(it.versions.generationV?.blackWhite?.animated?.frontDefault)
+                                .crossfade(true)
+                                .build(),
+                            contentDescription = pokemonInfo.data.name,
+                            modifier = Modifier
+                                .size(pokemonImageSize)
+                                .padding(32.dp)
+                                .offset(y = topPadding * 2)
+                        )
+                    }
+                }else{
+                    pokemonInfo.data.sprites.let {
+                        AsyncImage(
+                            model = ImageRequest.Builder(LocalContext.current)
+                                .data(it.frontDefault)
+                                .crossfade(true)
+                                .build(),
+                            contentDescription = pokemonInfo.data.name,
+                            modifier = Modifier
+                                .size(pokemonImageSize)
+                                .offset(y = topPadding * 2)
+                        )
+                    }
                 }
             }
         }

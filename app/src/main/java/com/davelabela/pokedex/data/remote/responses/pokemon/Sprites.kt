@@ -25,5 +25,5 @@ data class Sprites(
     @SerialName("other")
     val other: Other?,
     @SerialName("versions")
-    val versions: Versions?
+    val versions: Versions
 )
