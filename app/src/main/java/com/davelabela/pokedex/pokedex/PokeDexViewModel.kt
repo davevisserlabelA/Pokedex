@@ -1,4 +1,4 @@
-package com.davelabela.pokedex.pokemonlist
+package com.davelabela.pokedex.pokedex
 
 import android.graphics.Bitmap
 import android.graphics.drawable.BitmapDrawable

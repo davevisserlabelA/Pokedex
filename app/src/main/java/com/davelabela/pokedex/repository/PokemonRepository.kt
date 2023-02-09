@@ -2,6 +2,8 @@ package com.davelabela.pokedex.repository
 
 import com.davelabela.pokedex.data.remote.responses.generation.Generation
 import com.davelabela.pokedex.data.remote.responses.generation.GenerationList
+import com.davelabela.pokedex.data.remote.responses.items.Item
+import com.davelabela.pokedex.data.remote.responses.items.ItemList
 import com.davelabela.pokedex.data.remote.responses.pokemon.Pokemon
 import com.davelabela.pokedex.data.remote.responses.pokemon.PokemonList
 import com.davelabela.pokedex.util.Resource
@@ -16,5 +18,9 @@ interface PokemonRepository {
     suspend fun getGenerationInfo(id: Int): Resource<Generation>
 
     suspend fun getGenerationList(): Resource<GenerationList>
+
+    suspend fun getItemList(limit: Int, offset: Int): Resource<ItemList>
+
+    suspend fun getItemInfo(name: String): Resource<Item>
 
 }
